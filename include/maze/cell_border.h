@@ -4,16 +4,21 @@
 #include <string>
 using namespace std;
 
-class CellBorder {
+class LineSegment {
 public:
-    CellBorder(double, double, double, double);
-    CellBorder(tuple<double, double, double, double>);
-
-    string PringStringSVG(const string&) const;
-    void GetCellCenters(double&, double&, double&, double&) const;
+    LineSegment(double, double, double, double);
+    LineSegment(tuple<double, double, double, double>);
     tuple<double, double, double, double> GetCoordinates() const;
+    string PrintStringSVG(const string&) const;
 
 protected:
-    double x1_, y1_, x2_, y2;
+    double x1_, y1_, x2_, y2_;
 };
+
+class CellBorder : public LineSegment {
+public:
+    using LineSegment::LineSegment;
+    tuple<double, double, double, double> GetCellCenters() const;
+};
+
 #endif

@@ -8,24 +8,24 @@
 
 class Maze {
 public:
-    Maze(int = 20, int = 20, int = 0, int = 1);
+    Maze(int = 20, int = 20);
     void GenerateMaze(SpanningTreeAlgorithm*);
     void PrintMazeSVG(const string&, bool = false) const;
     int GetVertexCount() const { return vertices_; }
     int GetWidth() const { return width_; }
     int GetHeight() const { return height_; }
-    const Graph& GetAdjacencyList() const { return adjacencyList_; }
+    const Graph& GetAdjacencyList() const { return gridGraph_; }
     void InitialiseGraph();
     void Solve(const vector<pair<int, int>>&);
 
 private:
     int vertices_, width_, height_;
-    Graph adjacencyList_, solution_;
+    Graph gridGraph_, spanningTreeGraph_, solutionGraph_;
     int startVertex_, endVertex_;
 
     int VertexIndex(int, int) const;
     void RemoveBorders(const vector<pair<int, int>>&);
-    tuple<double, double, double, double> GetCoordinateBounds();
+    tuple<double, double, double, double> GetCoordinateBounds() const;
 };
 
 #endif
