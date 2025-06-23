@@ -16,7 +16,7 @@ public:
     int GetHeight() const { return height_; }
     const Graph& GetAdjacencyList() const { return gridGraph_; }
     void InitialiseGraph();
-    void Solve(const vector<pair<int, int>>&);
+    void Solve();
 
 private:
     int vertices_, width_, height_;

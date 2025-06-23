@@ -44,6 +44,8 @@
         "algorithm": "cpp",
         "iterator": "cpp",
         "memory_resource": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "cstring": "cpp",
+        "map": "cpp"
     }
 }

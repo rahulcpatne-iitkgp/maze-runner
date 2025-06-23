@@ -94,7 +94,7 @@ void Maze::GenerateMaze(SpanningTreeAlgorithm *algorithm)
     RemoveBorders(spanningTreeEdges);
 }
 
-void Maze::Solve(const vector<pair<int, int>> &edges)
+void Maze::Solve()
 {
     DepthFirstSearch D;
     auto parent = D.Solve(vertices_, spanningTreeGraph_, startVertex_);
@@ -176,8 +176,7 @@ void Maze::PrintMazeSVG(const string &outputprefix, bool showSolution) const
                 auto border = get<1>(edge);
 
                 shared_ptr<LineSegment> solutionLine = make_shared<LineSegment>(border->GetCellCenters());
-
-                solutionLine->PrintStringSVG("red");
+                svgfile << solutionLine->PrintStringSVG("red") << "\n";
             }
         }
     }
