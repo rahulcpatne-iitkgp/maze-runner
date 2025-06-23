@@ -1,0 +1,18 @@
+# Ignore build directory
+build/
+
+# Ignore mazegen executable
+mazegen
+
+# Ignore all object files
+*.o
+
+# Ignore tags file
+tags
+
+# Common temporary and backup files
+*.out
+*.a
+*.so
+*.swp
+*~

@@ -1,0 +1,31 @@
+#ifndef MAZE_H
+#define MAZE_H
+
+#include "cell_border.h"
+#include "spanning_tree_algorithm.h"
+#include <memory>
+#include <vector>
+
+class Maze {
+public:
+    Maze(int = 20, int = 20, int = 0, int = 1);
+    void GenerateMaze(SpanningTreeAlgorithm*);
+    void PrintMazeSVG(const string&, bool = false) const;
+    int GetVertexCount() const { return vertices_; }
+    int GetWidth() const { return width_; }
+    int GetHeight() const { return height_; }
+    const Graph& GetAdjacencyList() const { return adjacencyList_; }
+    void InitialiseGraph();
+    void Solve(const vector<pair<int, int>>&);
+
+private:
+    int vertices_, width_, height_;
+    Graph adjacencyList_, solution_;
+    int startVertex_, endVertex_;
+
+    int VertexIndex(int, int) const;
+    void RemoveBorders(const vector<pair<int, int>>&);
+    tuple<double, double, double, double> GetCoordinateBounds();
+};
+
+#endif
