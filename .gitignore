@@ -4,6 +4,10 @@ build/
 # Ignore vscode settings
 .vscode/
 
+# Ignore .svg output files
+*.svg
+!result/example/*
+
 # Ignore mazegen executable
 mazegen
 
