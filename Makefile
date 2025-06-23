@@ -43,14 +43,6 @@ $(BUILDDIR)/main.o: $(SRC_MAIN)
 	@echo "Compiling $<"
 	@$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-# Run the generator/solver and move SVGs into result/
-# .PHONY: run
-# run: mazegen
-# 	@mkdir -p $(RESULTDIR)
-# 	@echo "Generating SVGs…"
-# 	@./mazegen maze     # <-- adjust 'maze' to your desired outputprefix
-# 	@mv maze*.svg $(RESULTDIR)/
-
 # Clean up everything
 .PHONY: clean
 clean:
