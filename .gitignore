@@ -1,6 +1,9 @@
 # Ignore build directory
 build/
 
+# Ignore vscode settings
+.vscode/
+
 # Ignore mazegen executable
 mazegen
 
