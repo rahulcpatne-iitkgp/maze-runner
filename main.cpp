@@ -1,6 +1,7 @@
 #include "depth_first_search.h"
 #include "kruskal.h"
 #include "loop_erased_random_walk.h"
+#include "depth_first_search_solver.h"
 #include "maze.h"
 #include <cstring>
 #include <iostream>
@@ -92,7 +93,8 @@ int main(int argc, char *argv[])
     }
 
     Maze *maze;
-    SpanningTreeAlgorithm *algorithm;
+    SpanningTreeAlgorithm *build_algorithm;
+    SolverAlgorithm *solve_algorithm = new DepthFirstSearchSolver();
 
     if(optionMap["-w"] <= 0 || optionMap["-h"] <= 0) {
         cerr << "Width and height must be positive integers." << endl;
@@ -107,22 +109,22 @@ int main(int argc, char *argv[])
     {
     case 0:
         cout << "Using Kruskal's algorithm to build the maze." << endl;
-        algorithm = new Kruskal();
+        build_algorithm = new Kruskal();
         break;
     case 1:
         cout << "Using Depth First Search to build the maze." << endl;
-        algorithm = new DepthFirstSearch();
+        build_algorithm = new DepthFirstSearch();
         break;
     case 2:
         cout << "Using Loop Erased Random Walk to build the maze." << endl;
-        algorithm = new LoopErasedRandomWalk();
+        build_algorithm = new LoopErasedRandomWalk();
         break;
     default:
         cerr << "Unknown algorithm type: " << optionMap["-a"] << endl;
         usage(cerr);
         return 1;
     }
-    maze->GenerateMaze(algorithm);
+    maze->GenerateMaze(build_algorithm);
 
     maze->PrintMazeSVG(output_prefix, false);
     cout << "Rendering unsolved maze to '" << output_prefix << ".svg'..." << endl;
@@ -130,7 +132,7 @@ int main(int argc, char *argv[])
     if(show_solution)
     {
         cout << "Solving the maze using Depth First Search." << endl;
-        maze->Solve();
+        maze->Solve(solve_algorithm);
         cout << "Rendering solved maze to '" << output_prefix << "_solved.svg'..." << endl;
         maze->PrintMazeSVG(output_prefix, true);
     }

@@ -3,6 +3,7 @@
 
 #include "cell_border.h"
 #include "spanning_tree_algorithm.h"
+#include "solver_algorithm.h"
 #include <memory>
 #include <vector>
 
@@ -16,7 +17,7 @@ public:
     int GetHeight() const { return height_; }
     const Graph& GetAdjacencyList() const { return gridGraph_; }
     void InitialiseGraph();
-    void Solve();
+    void Solve(SolverAlgorithm*);
 
 private:
     int vertices_, width_, height_;

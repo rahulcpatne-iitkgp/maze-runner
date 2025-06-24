@@ -94,10 +94,9 @@ void Maze::GenerateMaze(SpanningTreeAlgorithm *algorithm)
     RemoveBorders(spanningTreeEdges);
 }
 
-void Maze::Solve()
+void Maze::Solve(SolverAlgorithm* algorithm)
 {
-    DepthFirstSearch D;
-    auto parent = D.Solve(vertices_, spanningTreeGraph_, startVertex_);
+    auto parent = algorithm->Solve(vertices_, spanningTreeGraph_, startVertex_);
     solutionGraph_ = Graph(vertices_);
     for (int u = endVertex_; parent[u] != u; u = parent[u])
     {

@@ -2,17 +2,16 @@
 #define SPANNING_TREE_ALGORITHM_H
 
 #include "cell_border.h"
-#include <memory>
+#include "defs.h"
 #include <random>
 #include <vector>
 using namespace std;
 
-typedef tuple<int, shared_ptr<CellBorder>> Edge;
-typedef vector<vector<Edge>> Graph;
+
 
 class SpanningTreeAlgorithm {
 public:
-    SpanningTreeAlgorithm();
+    inline SpanningTreeAlgorithm(): generator_(randomDevice_()) {}
     virtual vector<pair<int, int>> SpanningTree(int, const Graph&) = 0;
 
 protected:
@@ -21,4 +20,4 @@ protected:
     mt19937 generator_;
 };
 
-#endif
+#endif // SPANNING_TREE_ALGORITHM_H
