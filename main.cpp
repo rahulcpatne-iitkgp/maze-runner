@@ -1,5 +1,6 @@
 #include "depth_first_search.h"
 #include "kruskal.h"
+#include "loop_erased_random_walk.h"
 #include "maze.h"
 #include <cstring>
 #include <iostream>
@@ -9,23 +10,25 @@ using namespace std;
 
 void usage(ostream &out)
 {
-    out << "Usage: mazegen [--help] [-a <build algorithm type>]" << endl;
-    out << "               [-s solution algorithm type]" << endl;
-    out << "               [-w, -h <width>, <height>]" << endl;
-    out << "               [-o <output prefix>]" << endl;
-    out << "               [--show-solution]" << endl;
+    out << "Usage:    mazegen   [--help] [-a <build algorithm type>]" << endl;
+    out << "                    [-s solution algorithm type]" << endl;
+    out << "                    [-w, -h <width>, <height>]" << endl;
+    out << "                    [-o <output prefix>]" << endl;
+    out << "                    [--show-solution]" << endl;
 
     out << endl;
 
     out << "Optional arguments:" << endl;
-    out << "  --help    Show this help message and exit." << endl;
-    out << "  -a        Algorithm Type for building the maze." << endl;
-    out << "              0: Kruskal's Algorithm (default)" << endl;
-    out << "              1: Depth First Search" << endl;
-    out << "  -s        Algorithm Type for solving the maze." << endl;
-    out << "              0: Depth First Search (default)" << endl;
-    out << "  -w, -h    Width and height (default - 20)" << endl;
-    out << "  -o        Output prefix for .svg file (default - \"maze\")" << endl;
+    out << "  --help            Show this help message and exit." << endl;
+    out << "  -a                Algorithm Type for building the maze." << endl;
+    out << "                      0: Kruskal's Algorithm (default)" << endl;
+    out << "                      1: Depth First Search" << endl;
+    out << "                      2: Loop Erased Random Walk" << endl;
+    out << "  -s                Algorithm Type for solving the maze." << endl;
+    out << "                      0: Depth First Search (default)" << endl;
+    out << "  -w, -h            Width and height (default - 20)" << endl;
+    out << "  -o                Output prefix for .svg file (default - \"maze\")" << endl;
+    out << "  --show-solution   Render the solution to the maze." << endl;
 }
 
 int main(int argc, char *argv[])
@@ -109,6 +112,10 @@ int main(int argc, char *argv[])
     case 1:
         cout << "Using Depth First Search to build the maze." << endl;
         algorithm = new DepthFirstSearch();
+        break;
+    case 2:
+        cout << "Using Loop Erased Random Walk to build the maze." << endl;
+        algorithm = new LoopErasedRandomWalk();
         break;
     default:
         cerr << "Unknown algorithm type: " << optionMap["-a"] << endl;

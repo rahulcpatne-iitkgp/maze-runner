@@ -6,7 +6,7 @@ build/
 
 # Ignore .svg output files
 *.svg
-!result/example/*
+!result/examples/*
 
 # Ignore mazegen executable
 mazegen

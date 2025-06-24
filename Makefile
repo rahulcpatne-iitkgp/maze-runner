@@ -27,7 +27,7 @@ all: mazegen
 
 # Link executable
 mazegen: $(OBJECTS)
-	@echo "Linking $@"
+	@echo "Building $@"
 	@$(CXX) $(OBJECTS) -o $@ $(CXXFLAGS)
 
 # Compile .cpp → .o
@@ -47,4 +47,5 @@ $(BUILDDIR)/main.o: $(SRC_MAIN)
 .PHONY: clean
 clean:
 	@echo "Cleaning build, executable, and results…"
-	@rm -rf $(BUILDDIR) mazegen $(RESULTDIR)
+	@rm -rf $(BUILDDIR) mazegen
+	@find $(RESULTDIR) -maxdepth 1 -type f -name '*.svg' -exec rm -f {} +
