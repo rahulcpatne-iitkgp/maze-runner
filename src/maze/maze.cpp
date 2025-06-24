@@ -16,11 +16,6 @@ int Maze::VertexIndex(int row, int col) const
 
 void Maze::InitialiseGraph()
 {
-    /*
-        vertex index 0 is lower left corner
-        Lower left corner left border is ENTRANCE to maze
-        Top right corner right border is EXIT from maze
-    */
     gridGraph_.clear();
     gridGraph_.resize(vertices_);
 
@@ -75,11 +70,9 @@ void Maze::GenerateMaze(SpanningTreeAlgorithm *algorithm)
     InitialiseGraph();
     auto spanningTreeEdges = algorithm->SpanningTree(vertices_, gridGraph_);
 
-    // Create the subset graph to be used in the solution
     spanningTreeGraph_ = Graph(vertices_);
     for (const auto &[u, v] : spanningTreeEdges)
     {
-        // Find the corresponding edge in the grid
         spanningTreeGraph_[u].push_back(
             *find_if(gridGraph_[u].begin(), gridGraph_[u].end(),
                      [v = v](const Edge &e)
@@ -90,13 +83,13 @@ void Maze::GenerateMaze(SpanningTreeAlgorithm *algorithm)
                      { return get<0>(e) == u; }));
     }
 
-    // Remove borders that are a part of the spanning tree
     RemoveBorders(spanningTreeEdges);
 }
 
 void Maze::Solve(SolverAlgorithm* algorithm)
 {
-    auto parent = algorithm->Solve(vertices_, spanningTreeGraph_, startVertex_);
+    auto parent = algorithm->Solve(width_, height_, spanningTreeGraph_, startVertex_, endVertex_);
+    
     solutionGraph_ = Graph(vertices_);
     for (int u = endVertex_; parent[u] != u; u = parent[u])
     {
@@ -104,6 +97,18 @@ void Maze::Solve(SolverAlgorithm* algorithm)
             spanningTreeGraph_[u].begin(), spanningTreeGraph_[u].end(),
             [u, &parent](const Edge &e)
             { return get<0>(e) == parent[u]; }));
+    }
+    
+    solutionTraversalGraph_ = Graph(vertices_);
+    for (int u = 0; u < vertices_; ++u)
+    {
+        if (parent[u] != -1 && parent[u] != u)
+        {
+            solutionTraversalGraph_[u].push_back(*find_if(
+                spanningTreeGraph_[u].begin(), spanningTreeGraph_[u].end(),
+                [u, &parent](const Edge &e)
+                { return get<0>(e) == parent[u]; }));
+        }
     }
 }
 
@@ -150,7 +155,6 @@ void Maze::PrintMazeSVG(const string &outputprefix, bool showSolution) const
             << "\" width=\"" << xresolution << "\" height=\"" << yresolution
             << "\" fill=\"white\"/>" << endl;
 
-    // Draw maze walls
     for (int i = 0; i < vertices_; ++i)
     {
         for (const auto &edge : gridGraph_[i])
@@ -162,12 +166,18 @@ void Maze::PrintMazeSVG(const string &outputprefix, bool showSolution) const
         }
     }
 
-    // Draw solution path if requested
     if (showSolution)
     {
-        svgfile << "<!-- Solution Path -->\n";
+        for (int v = 0; v < vertices_; v++)
+        {
+            for (const auto &edge : solutionTraversalGraph_[v])
+            {
+                auto border = get<1>(edge);
 
-        // Draw red lines connecting cell centers along the solution path
+                shared_ptr<LineSegment> solutionLine = make_shared<LineSegment>(border->GetCellCenters());
+                svgfile << solutionLine->PrintStringSVG("#d6bbfa") << "\n";
+            }
+        }
         for (int v = 0; v < vertices_; v++)
         {
             for (const auto &edge : solutionGraph_[v])
@@ -175,7 +185,7 @@ void Maze::PrintMazeSVG(const string &outputprefix, bool showSolution) const
                 auto border = get<1>(edge);
 
                 shared_ptr<LineSegment> solutionLine = make_shared<LineSegment>(border->GetCellCenters());
-                svgfile << solutionLine->PrintStringSVG("red") << "\n";
+                svgfile << solutionLine->PrintStringSVG("blue") << "\n";
             }
         }
     }

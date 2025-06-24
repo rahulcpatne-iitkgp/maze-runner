@@ -2,30 +2,40 @@
 #include <algorithm>
 #include <iostream>
 
-void DepthFirstSearchSolver::DFS(int vertex, const Graph &adjacencyList)
+bool DepthFirstSearchSolver::DFS(int vertex, const Graph &adjacencyList, int endVertex)
 {
-    // Generate random order of neighbors
+
+    if (vertex == endVertex)
+    {
+        return true;
+    }
+
     vector<int> neighbor_indices(adjacencyList[vertex].size());
     iota(neighbor_indices.begin(), neighbor_indices.end(), 0);
     shuffle(neighbor_indices.begin(), neighbor_indices.end(), generator_);
 
-    // Visit each neighbor
     for (auto index : neighbor_indices)
     {
         int nextVertex = get<0>(adjacencyList[vertex][index]);
         if (nextVertex < 0 || parent_[nextVertex] != -1)
             continue;
         parent_[nextVertex] = vertex;
-        DFS(nextVertex, adjacencyList);
+        if (DFS(nextVertex, adjacencyList, endVertex))
+        {
+            return true;
+        }
     }
+    return false;
 }
 
-vector<int> DepthFirstSearchSolver::Solve(int vertices,
-                                    const Graph &adjacencyList,
-                                    int startVertex)
+vector<int> DepthFirstSearchSolver::Solve(int width, int height,
+                                          const Graph &adjacencyList,
+                                          int startVertex,
+                                          int endVertex)
 {
+    int vertices = width * height;
     parent_ = vector<int>(vertices, -1);
-    parent_[startVertex] = startVertex; // Mark the start vertex as its own parent
-    DFS(startVertex, adjacencyList);
+    parent_[startVertex] = startVertex;
+    DFS(startVertex, adjacencyList, endVertex);
     return parent_;
 }

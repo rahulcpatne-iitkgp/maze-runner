@@ -7,12 +7,11 @@
 #include <vector>
 using namespace std;
 
-
-
-class SpanningTreeAlgorithm {
+class SpanningTreeAlgorithm
+{
 public:
-    inline SpanningTreeAlgorithm(): generator_(randomDevice_()) {}
-    virtual vector<pair<int, int>> SpanningTree(int, const Graph&) = 0;
+    inline SpanningTreeAlgorithm() : generator_(randomDevice_()) {}
+    virtual vector<pair<int, int>> SpanningTree(int, const Graph &) = 0;
 
 protected:
     vector<pair<int, int>> spanningTree_;

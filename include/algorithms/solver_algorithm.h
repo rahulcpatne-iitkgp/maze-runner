@@ -5,15 +5,17 @@
 #include <random>
 #include <vector>
 
-class SolverAlgorithm {
+class SolverAlgorithm
+{
 public:
     inline SolverAlgorithm() : generator_(randomDevice_()) {}
-    virtual vector<int> Solve(int vertices,
+    virtual vector<int> Solve(int width, int height,
                               const Graph &adjacencyList,
-                              int startVertex) = 0;
+                              int startVertex,
+                              int endVertex) = 0;
+
 protected:
     random_device randomDevice_;
     mt19937 generator_;
-
 };
 #endif // SOLVER_ALGORITHM_H

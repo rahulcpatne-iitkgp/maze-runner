@@ -18,16 +18,16 @@ vector<pair<int, int>> Kruskal::SpanningTree(int vertices,
     shuffle(edges.begin(), edges.end(), generator_);
 
     parent_ = vector<int>(vertices);
-    rank_ = vector<int>(vertices, 0);  // Add rank array
+    rank_ = vector<int>(vertices, 0);
     iota(parent_.begin(), parent_.end(), 0);
 
     spanningTree_.clear();
-    for (const auto& edge : edges)
+    for (const auto &edge : edges)
     {
         int u = edge.first;
         int v = edge.second;
 
-        if (Union(u, v))  // Use optimized union function
+        if (Union(u, v))
         {
             spanningTree_.emplace_back(u, v);
         }
@@ -46,11 +46,10 @@ bool Kruskal::Union(int x, int y)
 {
     int rootX = Find(x);
     int rootY = Find(y);
-    
+
     if (rootX == rootY)
         return false;
-    
-    // Union by rank
+
     if (rank_[rootX] < rank_[rootY])
         parent_[rootX] = rootY;
     else if (rank_[rootX] > rank_[rootY])

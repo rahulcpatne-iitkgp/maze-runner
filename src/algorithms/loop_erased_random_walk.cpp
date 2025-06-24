@@ -36,11 +36,12 @@ void LoopErasedRandomWalk::LERW(int vertex, int round,
         {
             next_vertex = get<0>(adjacencyList[vertex][uniform_int_distribution<int>(
                 0, adjacencyList[vertex].size() - 1)(generator_)]);
-        } while(next_vertex < 0);
+        } while (next_vertex < 0);
 
-        if(visited_[next_vertex] == round) {
-            // Loop detected, erase the loop
-            do {
+        if (visited_[next_vertex] == round)
+        {
+            do
+            {
                 vertex = current_path.back();
                 visited_[vertex] = 0;
                 current_path.pop_back();
@@ -56,5 +57,5 @@ void LoopErasedRandomWalk::LERW(int vertex, int round,
         int u = current_path[i];
         int v = current_path[i + 1];
         spanningTree_.emplace_back(u, v);
-    } 
+    }
 }

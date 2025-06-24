@@ -49,3 +49,8 @@ clean:
 	@echo "Cleaning build, executable, and results…"
 	@rm -rf $(BUILDDIR) mazegen
 	@find $(RESULTDIR) -maxdepth 1 -type f -name '*.svg' -exec rm -f {} +
+
+.PHONY: clean-results
+clean-results:
+	@echo "Cleaning results…"
+	@find $(RESULTDIR) -maxdepth 1 -type f -name '*.svg' -exec rm -f {} +
