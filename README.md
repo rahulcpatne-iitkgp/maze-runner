@@ -16,18 +16,13 @@ A command-line tool for generating and solving mazes, inspired by [razimantv/maz
 
 Each algorithm creates a maze with unique structural characteristics:
 
-- **Loop-Erased Random Walk (LERW)**  
-  - Few long branches  
-  - Sparse dead ends  
-- **Kruskal’s Algorithm**  
-  - Many short branches  
-  - Balanced randomness  
-- **Depth First Search (DFS)**  
-  - Long winding corridors  
-  - Few wide branches
-
-Select using `-b` option with values `0`, `1`, or `2`.
-
+- **Loop-Erased Random Walk (LERW)** (default)
+    - Sparse, clean structure with few branches
+- **Kruskal’s Algorithm**
+    - Highly branched, dense and bushy paths
+- **Depth First Search (DFS)**
+    - Long winding paths, few junctions
+  
 ---
 
 ## 🧭 Maze Solving Algorithms
